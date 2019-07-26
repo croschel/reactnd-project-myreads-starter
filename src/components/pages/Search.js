@@ -27,7 +27,12 @@ class Search extends React.Component {
             if(result.error){
                 return this.setState({results:[]});
             }else{
-               
+                result.forEach(b => {
+                    let f = this.state.books.filter(B => B.id === b.id);
+                    if(f[0]){
+                        b.shelf = f[0].shelf;
+                    }
+                })
                 return this.setState({results: result});
             }
         })
@@ -36,7 +41,7 @@ class Search extends React.Component {
     componentDidMount(){
         BooksAPI.getAll()
         .then(response => {
-            this.setState({books: response}); //watch out was response
+            this.setState({books: response}); 
         });
     }
     updateBook = (book,shelf) => {
